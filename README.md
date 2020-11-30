@@ -1,12 +1,12 @@
-# Content Database
-[![Build status](https://gitlab.com/minetest/contentdb/badges/master/pipeline.svg)](https://gitlab.com/minetest/contentdb/pipelines)
+# Cheat Database
 
-Content database for Minetest mods, games, and more.\
-Developed by rubenwardy, license GPLv3.0+.
+Cheat database for Dragonfire clientsmods, and texture packs.\
+Developed by EliasFleckenstein03, license GPLv3.0+.
+Forked from ContentDB by rubenwardy.
 
 ## Getting started (debug/dev)
 
-Docker is the recommended way to develop and deploy ContentDB.
+Docker is the recommended way to develop and deploy CheatDB.
 
 1. Install `docker` and `docker-compose`.
 
@@ -47,7 +47,7 @@ Docker is the recommended way to develop and deploy ContentDB.
 	  	2. `-t` will do `-o` and also create test packages. (Recommended)
 
 9. View at <http://localhost:5123>.
-   The admin username is `rubenwardy` and the password is `tuckfrump`.
+   The admin username is `Fleckenstein` and the password is `tuckfrump`.
 
 In the future, starting CDB is as simple as:
 

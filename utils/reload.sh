@@ -2,4 +2,4 @@
 
 # Hot/live reload - only works in debug mode
 
-docker exec contentdb_app_1 sh -c "cp -r /source/* ."
+docker exec cheatdb_app_1 sh -c "cp -r /source/* ."

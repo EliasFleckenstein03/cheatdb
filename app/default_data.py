@@ -3,24 +3,19 @@ from .utils import make_flask_user_password
 
 
 def populate(session):
-	admin_user = User("rubenwardy")
+	admin_user = User("Fleckenstein")
 	admin_user.active = True
 	admin_user.password = make_flask_user_password("tuckfrump")
-	admin_user.github_username = "rubenwardy"
-	admin_user.forums_username = "rubenwardy"
+	admin_user.github_username = "EliasFleckenstein03"
+	admin_user.forums_username = "Fleckenstein"
 	admin_user.rank = UserRank.ADMIN
 	session.add(admin_user)
 
-	session.add(MinetestRelease("None", 0))
-	session.add(MinetestRelease("0.4.16/17", 32))
-	session.add(MinetestRelease("5.0", 37))
-	session.add(MinetestRelease("5.1", 38))
-
 	tags = {}
-	for tag in ["Inventory", "Mapgen", "Building", \
-			"Mobs and NPCs", "Tools", "Player effects", \
-			"Environment", "Transport", "Maintenance", "Plants and farming", \
-			"PvP", "PvE", "Survival", "Creative", "Puzzle", "Multiplayer", "Singleplayer"]:
+	for tag in ["Render", "World", "Player", \
+			"Chat", "Exploit", "Inventory", "Movement", \
+			"Combat", "Bot", "GUI", \
+			"MineClone", "Any Game", "CTF", "Minetest Game"]:
 		row = Tag(tag)
 		tags[row.name] = row
 		session.add(row)
@@ -43,331 +38,138 @@ def populate_test_data(session):
 	licenses = { x.name : x for x in License.query.all() }
 	tags = { x.name : x for x in Tag.query.all() }
 	admin_user = User.query.filter_by(rank=UserRank.ADMIN).first()
-	v4 = MinetestRelease.query.filter_by(protocol=32).first()
-	v50 = MinetestRelease.query.filter_by(protocol=37).first()
-	v51 = MinetestRelease.query.filter_by(protocol=38).first()
 
-	ez = User("Shara")
-	ez.github_username = "Ezhh"
-	ez.forums_username = "Shara"
-	ez.rank = UserRank.EDITOR
-	session.add(ez)
+	cora = User("cora")
+	cora.github_username = "corarona"
+	cora.rank = UserRank.EDITOR
+	session.add(cora)
 
-	not1 = Notification(admin_user, ez, "Awards approved", "/packages/rubenwardy/awards/")
+	not1 = Notification(admin_user, cora, "Schematicas Approved", "/packages/Fleckenstein/schematicas/")
 	session.add(not1)
 
-	jeija = User("Jeija")
-	jeija.github_username = "Jeija"
-	jeija.forums_username = "Jeija"
-	session.add(jeija)
-
+	anon5 = User("anon5")
+	anon5.github_username = "anon55555"
+	session.add(anon5)
 
 	mod = Package()
 	mod.state = PackageState.APPROVED
-	mod.name = "alpha"
-	mod.title = "Alpha Test"
-	mod.license = licenses["MIT"]
-	mod.media_license = licenses["MIT"]
+	mod.name = "perlin"
+	mod.title = "Perlin Terraforming"
+	mod.license = licenses["GPLv3"]
+	mod.media_license = licenses["GPLv3"]
 	mod.type = PackageType.MOD
 	mod.author = admin_user
-	mod.tags.append(tags["mapgen"])
-	mod.tags.append(tags["environment"])
-	mod.repo = "https://github.com/ezhh/other_worlds"
-	mod.issueTracker = "https://github.com/ezhh/other_worlds/issues"
-	mod.forums = 16015
-	mod.short_desc = "The content library should not be used yet as it is still in alpha"
-	mod.desc = "This is the long desc"
+	mod.tags.append(tags["world"])
+	mod.tags.append(tags["any_game"])
+	mod.repo = "https://github.com/EliasFleckenstein03/perlin"
+	mod.issueTracker = "https://github.com/EliasFleckenstein03/perlin/issues"
+	mod.short_desc = "A dragonfire CSM that does terraforming automatically using perlin noise."
+	mod.desc = ""
 	session.add(mod)
 
 	rel = PackageRelease()
 	rel.package = mod
 	rel.title = "v1.0.0"
-	rel.url = "https://github.com/ezhh/handholds/archive/master.zip"
+	rel.url = "https://github.com/EliasFleckenstein03/perlin/archive/master.zip"
 	rel.approved = True
 	session.add(rel)
-
-	mod1 = Package()
-	mod1.state = PackageState.APPROVED
-	mod1.name = "awards"
-	mod1.title = "Awards"
-	mod1.license = licenses["LGPLv2.1"]
-	mod1.media_license = licenses["MIT"]
-	mod1.type = PackageType.MOD
-	mod1.author = admin_user
-	mod1.tags.append(tags["player_effects"])
-	mod1.repo = "https://github.com/rubenwardy/awards"
-	mod1.issueTracker = "https://github.com/rubenwardy/awards/issues"
-	mod1.forums = 4870
-	mod1.short_desc = "Adds achievements and an API to register new ones."
-	mod1.desc = """
-Majority of awards are back ported from Calinou's old fork in Carbone, under same license.
-
-```
-awards.register_achievement("award_mesefind",{
-    title = "First Mese Find",
-    description = "Found some Mese!",
-    trigger = {
-        type   = "dig",          -- award is given when
-        node   = "default:mese", -- this type of node has been dug
-        target = 1,              -- this number of times
-    },
-})
-```
-"""
-
-	rel = PackageRelease()
-	rel.package = mod1
-	rel.min_rel = v51
-	rel.title = "v1.0.0"
-	rel.url = "https://github.com/rubenwardy/awards/archive/master.zip"
-	rel.approved = True
-	session.add(rel)
-
-	mod2 = Package()
-	mod2.state = PackageState.APPROVED
-	mod2.name = "mesecons"
-	mod2.title = "Mesecons"
-	mod2.tags.append(tags["tools"])
-	mod2.type = PackageType.MOD
-	mod2.license = licenses["LGPLv3"]
-	mod2.media_license = licenses["MIT"]
-	mod2.author = jeija
-	mod2.repo = "https://github.com/minetest-mods/mesecons/"
-	mod2.issueTracker = "https://github.com/minetest-mods/mesecons/issues"
-	mod2.forums = 628
-	mod2.short_desc = "Mesecons adds everything digital, from all kinds of sensors, switches, solar panels, detectors, pistons, lamps, sound blocks to advanced digital circuitry like logic gates and programmable blocks."
-	mod2.desc = """
-MESECONS by Jeija and contributors
-
-Mezzee-what?
-------------
-[Mesecons](http://mesecons.net/)! They're yellow, they're conductive, and they'll add a whole new dimension to Minetest's gameplay.
-
-Mesecons is a mod for [Minetest](http://minetest.net/) that implements a ton of items related to digital circuitry, such as wires, buttons, lights, and even programmable controllers. Among other things, there are also pistons, solar panels, pressure plates, and note blocks.
-
-Mesecons has a similar goal to Redstone in Minecraft, but works in its own way, with different rules and mechanics.
-
-OK, I want in.
---------------
-Go get it!
-
-[DOWNLOAD IT NOW](https://github.com/minetest-mods/mesecons/archive/master.zip)
-
-Now go ahead and install it like any other Minetest mod. Don't know how? Check out [the wonderful page about it](http://wiki.minetest.com/wiki/Mods) over at the Minetest Wiki. For your convenience, here's a quick summary:
-
-1. If Mesecons is still in a ZIP file, extract the folder inside to somewhere on the computer.
-2. Make sure that when you open the folder, you can directly find `README.md` in the listing. If you just see another folder, move that folder up one level and delete the old one.
-3. Open up the Minetest mods folder - usually `/mods/`. If you see the `minetest` or folder inside of that, that is your mod folder instead.
-4. Copy the Mesecons folder into the mods folder.
-
-Don't like some parts of Mesecons? Open up the Mesecons folder and delete the subfolder containing the mod you don't want. If you didn't want movestones, for example, all you have to do is delete the `mesecons_movestones` folder and they will no longer be available.
-
-There are no dependencies - it will work right after installing!
-
-How do I use this thing?
-------------------------
-How about a [quick overview video](https://www.youtube.com/watch?v=6kmeQj6iW5k)?
-
-Or maybe a [comprehensive reference](http://mesecons.net/items.html) is your style?
-
-An overview for the very newest of new beginners? How does [this one](http://uberi.mesecons.net/projects/MeseconsBasics/index.html) look?
-
-Want to get more into building? Why not check out the [Mesecons Laboratory](http://uberi.mesecons.net/), a website dedicated to advanced Mesecons builders?
-
-Want to contribute to Mesecons itself? Check out the [source code](https://github.com/minetest-mods/mesecons)!
-
-Who wrote it anyways?
----------------------
-These awesome people made Mesecons possible!
-
-| Contributor     | Contribution                     |
-| --------------- | -------------------------------- |
-| Hawk777         | Code for VoxelManip caching      |
-| Jat15           | Various tweaks.                  |
-| Jeija           | **Main developer! Everything.**  |
-| Jordach         | Noteblock sounds.                |
-| khonkhortistan  | Code, recipes, textures.         |
-| Kotolegokot     | Nodeboxes for items.             |
-| minerd247       | Textures.                        |
-| Nore/Novatux    | Code.                            |
-| RealBadAngel    | Fixes, improvements.             |
-| sfan5           | Code, recipes, textures.         |
-| suzenako        | Piston sounds.                   |
-| Uberi/Temperest | Code, textures, documentation.   |
-| VanessaE        | Code, recipes, textures, design. |
-| Whiskers75      | Logic gates implementation.      |
-
-There are also a whole bunch of other people helping with everything from code to testing and feedback. Mesecons would also not be possible without their help!
-
-Alright, how can I use it?
---------------------------
-All textures in this project are licensed under the CC-BY-SA 3.0 (Creative Commons Attribution-ShareAlike 3.0 Generic). That means you can distribute and remix them as much as you want to, under the condition that you give credit to the authors and the project, and that if you remix and release them, they must be under the same or similar license to this one.
-
-All code in this project is licensed under the LGPL version 3 or later. That means you have unlimited freedom to distribute and modify the work however you see fit, provided that if you decide to distribute it or any modified versions of it, you must also use the same license. The LGPL also grants the additional freedom to write extensions for the software and distribute them without the extensions being subject to the terms of the LGPL, although the software itself retains its license.
-
-No warranty is provided, express or implied, for any part of the project.
-
-"""
-
-	session.add(mod1)
-	session.add(mod2)
 
 	mod = Package()
 	mod.state = PackageState.APPROVED
-	mod.name = "handholds"
-	mod.title = "Handholds"
-	mod.license = licenses["MIT"]
-	mod.media_license = licenses["MIT"]
+	mod.name = "warp"
+	mod.title = "Warps"
+	mod.license = licenses["GPLv3"]
+	mod.media_license = licenses["GPLv3"]
 	mod.type = PackageType.MOD
-	mod.author = ez
-	mod.tags.append(tags["player_effects"])
-	mod.repo = "https://github.com/ezhh/handholds"
-	mod.issueTracker = "https://github.com/ezhh/handholds/issues"
-	mod.forums = 17069
-	mod.short_desc = "Adds hand holds and climbing thingies"
-	mod.desc = "This is the long desc"
+	mod.author = admin_user
+	mod.tags.append(tags["movement"])
+	mod.tags.append(tags["exploit"])
+	mod.tags.append(tags["gui"])
+	mod.tags.append(tags["any_game"])
+	mod.repo = "https://github.com/EliasFleckenstein03/warp"
+	mod.issueTracker = "https://github.com/EliasFleckenstein03/warp/issues"
+	mod.short_desc = "A dragonfire CSM to set warps in the world and use the teleport exploit."
+	mod.desc = ""
 	session.add(mod)
 
 	rel = PackageRelease()
 	rel.package = mod
 	rel.title = "v1.0.0"
-	rel.max_rel = v4
-	rel.url = "https://github.com/ezhh/handholds/archive/master.zip"
+	rel.url = "https://github.com/EliasFleckenstein03/warp/archive/master.zip"
 	rel.approved = True
 	session.add(rel)
 
 	mod = Package()
 	mod.state = PackageState.APPROVED
-	mod.name = "other_worlds"
-	mod.title = "Other Worlds"
-	mod.license = licenses["MIT"]
-	mod.media_license = licenses["MIT"]
-	mod.type = PackageType.MOD
-	mod.author = ez
-	mod.tags.append(tags["mapgen"])
-	mod.tags.append(tags["environment"])
-	mod.repo = "https://github.com/ezhh/other_worlds"
-	mod.issueTracker = "https://github.com/ezhh/other_worlds/issues"
-	mod.forums = 16015
-	mod.short_desc = "Adds space with asteroids and comets"
-	mod.desc = "This is the long desc"
-	session.add(mod)
-
-	mod = Package()
-	mod.state = PackageState.APPROVED
-	mod.name = "food"
-	mod.title = "Food"
-	mod.license = licenses["LGPLv2.1"]
-	mod.media_license = licenses["MIT"]
+	mod.name = "pathfinding"
+	mod.title = "Pathfinding"
+	mod.license = licenses["GPLv3"]
+	mod.media_license = licenses["GPLv3"]
 	mod.type = PackageType.MOD
 	mod.author = admin_user
-	mod.tags.append(tags["player_effects"])
-	mod.repo = "https://github.com/rubenwardy/food/"
-	mod.issueTracker = "https://github.com/rubenwardy/food/issues/"
-	mod.forums = 2960
-	mod.short_desc = "Adds lots of food and an API to manage ingredients"
-	mod.desc = "This is the long desc"
-	session.add(mod)
-
-	mod = Package()
-	mod.state = PackageState.APPROVED
-	mod.name = "food_sweet"
-	mod.title = "Sweet Foods"
-	mod.license = licenses["CC0"]
-	mod.media_license = licenses["MIT"]
-	mod.type = PackageType.MOD
-	mod.author = admin_user
-	mod.tags.append(tags["player_effects"])
-	mod.repo = "https://github.com/rubenwardy/food_sweet/"
-	mod.issueTracker = "https://github.com/rubenwardy/food_sweet/issues/"
-	mod.forums = 9039
-	mod.short_desc = "Adds sweet food"
-	mod.desc = "This is the long desc"
-	food_sweet = mod
-	session.add(mod)
-
-	game1 = Package()
-	game1.state = PackageState.APPROVED
-	game1.name = "capturetheflag"
-	game1.title = "Capture The Flag"
-	game1.type = PackageType.GAME
-	game1.license = licenses["LGPLv2.1"]
-	game1.media_license = licenses["MIT"]
-	game1.author = admin_user
-	game1.tags.append(tags["pvp"])
-	game1.tags.append(tags["survival"])
-	game1.tags.append(tags["multiplayer"])
-	game1.repo = "https://github.com/rubenwardy/capturetheflag"
-	game1.issueTracker = "https://github.com/rubenwardy/capturetheflag/issues"
-	game1.forums = 12835
-	game1.short_desc = "Two teams battle to snatch and return the enemy's flag, before the enemy takes their own!"
-	game1.desc = """
-As seen on the Capture the Flag server (minetest.rubenwardy.com:30000)
-
-` `[`javascript:/*--></title></style></textarea></script></xmp><svg/onload='+/"/+/onmouseover=1/+/`](javascript:/*--%3E%3C/title%3E%3C/style%3E%3C/textarea%3E%3C/script%3E%3C/xmp%3E%3Csvg/onload='+/%22/+/onmouseover=1/+/)`[*/[]/+alert(1)//'>`
-
-<IMG SRC="javascript:alert('XSS');">
-
-<IMG SRC=javascript:alert(&amp;quot;XSS&amp;quot;)>
-
-``<IMG SRC=`javascript:alert("RSnake says, 'XSS'")`>``
-
-\<a onmouseover="alert(document.cookie)"\>xxs link\</a\>
-
-\<a onmouseover=alert(document.cookie)\>xxs link\</a\>
-
-<IMG SRC=javascript:alert(String.fromCharCode(88,83,83))>
-
-<script>alert("hello");</script>
-
-<SCRIPT SRC=`[`http://xss.rocks/xss.js></SCRIPT>`](http://xss.rocks/xss.js%3E%3C/SCRIPT%3E)`;`
-
-`<IMG \"\"\">`
-
-<SCRIPT>
-
-alert("XSS")
-
-</SCRIPT>
-
-<IMG SRC= onmouseover="alert('xxs')">
-
-<img src=x onerror="&#0000106&#0000097&#0000118&#0000097&#0000115&#0000099&#0000114&#0000105&#0000112&#0000116&#0000058&#0000097&#0000108&#0000101&#0000114&#0000116&#0000040&#0000039&#0000088&#0000083&#0000083&#0000039&#0000041">
-
-"\>
-
-Uses the CTF PvP Engine.
-"""
-
-	session.add(game1)
-
-	rel = PackageRelease()
-	rel.package = game1
-	rel.title = "v1.0.0"
-	rel.url = "https://github.com/rubenwardy/capturetheflag/archive/master.zip"
-	rel.approved = True
-	session.add(rel)
-
-
-	mod = Package()
-	mod.state = PackageState.APPROVED
-	mod.name = "pixelbox"
-	mod.title = "PixelBOX Reloaded"
-	mod.license = licenses["CC0"]
-	mod.media_license = licenses["MIT"]
-	mod.type = PackageType.TXP
-	mod.author = admin_user
-	mod.forums = 14132
-	mod.short_desc = "This is an update of the original PixelBOX texture pack by the brillant artist Gambit"
-	mod.desc = "This is the long desc"
+	mod.tags.append(tags["movement"])
+	mod.tags.append(tags["bot"])
+	mod.tags.append(tags["any_game"])
+	mod.repo = "https://github.com/EliasFleckentein03/pathfinding"
+	mod.issueTracker = "https://github.com/EliasFleckentein03/pathfinding/issues"
+	mod.short_desc = "A dragonfire CSM that adds .goto command."
+	mod.desc = ""
 	session.add(mod)
 
 	rel = PackageRelease()
 	rel.package = mod
 	rel.title = "v1.0.0"
-	rel.url = "http://mamadou3.free.fr/Minetest/PixelBOX.zip"
+	rel.url = "https://github.com/EliasFleckentein03/pathfinding/archive/master.zip"
 	rel.approved = True
 	session.add(rel)
+
+	mod = Package()
+	mod.state = PackageState.APPROVED
+	mod.name = "schematicas"
+	mod.title = "Schematicas"
+	mod.license = licenses["GPLv3"]
+	mod.media_license = licenses["GPLv3"]
+	mod.type = PackageType.MOD
+	mod.author = admin_user
+	mod.tags.append(tags["world"])
+	mod.tags.append(tags["bot"])
+	mod.tags.append(tags["any_game"])
+	mod.repo = "https://github.com/EliasFleckenstein03/schematicas/"
+	mod.issueTracker = "https://github.com/EliasFleckenstein03/schematicas/issues"
+	mod.short_desc = "Dragonfire CSM for saving structures and building them automatically."
+	mod.desc = ""
+	session.add(mod)
+	
+	rel = PackageRelease()
+	rel.package = mod
+	rel.title = "v1.0.0"
+	rel.url = "https://github.com/EliasFleckenstein03/schematicas/archive/master.zip"
+	rel.approved = True
+	session.add(rel)
+	
+	txp = Package()
+	txp.state = PackageState.APPROVED
+	txp.name = "mc_textures"
+	txp.title = "Minecraft Textures"
+	txp.license = licenses["Other (Non-free)"]
+	txp.media_license = licenses["Other (Non-free)"]
+	txp.type = PackageType.TXP
+	txp.author = admin_user
+	txp.tags.append(tags["mineclone"])
+	txp.repo = "https://github.com/EliasFleckenstein03/mc-textures/"
+	txp.issueTracker = "https://github.com/EliasFleckenstein03/mc-textures/issues"
+	txp.short_desc = "MineClone2 Texture Pack containing the original minecraft textures."
+	txp.desc = ""
+	session.add(txp)
+	
+	rel = PackageRelease()
+	rel.package = txp
+	rel.title = "v1.0.0"
+	rel.url = "https://github.com/EliasFleckenstein03/mc-textures/master.zip"
+	rel.approved = True
+	session.add(rel)
+
+	
 
 	session.commit()
 
@@ -381,6 +183,3 @@ Uses the CTF PvP Engine.
 			session.add(meta)
 			metas[package.name] = meta
 		package.provides.append(meta)
-
-	dep = Dependency(food_sweet, meta=metas["food"])
-	session.add(dep)

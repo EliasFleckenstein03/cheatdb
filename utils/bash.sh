@@ -2,4 +2,4 @@
 
 # Open SSH to app instance
 
-docker exec -it contentdb_app_1 bash
+docker exec -it cheatdb_app_1 bash
