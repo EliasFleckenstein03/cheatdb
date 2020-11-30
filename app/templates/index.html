@@ -36,18 +36,18 @@
 	<h2 class="my-3">{{ _("Recently Updated") }}</h2>
 	{{ render_pkggrid(updated) }}
 
-
+	<!--
 	<a href="{{ url_for('packages.list_all', type='game', sort='score', order='desc') }}" class="btn btn-secondary float-right">
 		{{ _("See more") }}
 	</a>
 	<h2 class="my-3">{{ _("Top Games") }}</h2>
 	{{ render_pkggrid(pop_gam) }}
-
+	-->
 
 	<a href="{{ url_for('packages.list_all', type='mod', sort='score', order='desc') }}" class="btn btn-secondary float-right">
 		{{ _("See more") }}
 	</a>
-	<h2 class="my-3">{{ _("Top Mods") }}</h2>
+	<h2 class="my-3">{{ _("Top Clientmods") }}</h2>
 	{{ render_pkggrid(pop_mod) }}
 
 

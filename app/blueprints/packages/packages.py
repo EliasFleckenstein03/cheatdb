@@ -38,8 +38,8 @@ from urllib.parse import quote as urlescape
 from celery import uuid
 
 
-@menu.register_menu(bp, ".mods", "Mods", order=11, endpoint_arguments_constructor=lambda: { 'type': 'mod' })
-@menu.register_menu(bp, ".games", "Games", order=12, endpoint_arguments_constructor=lambda: { 'type': 'game' })
+@menu.register_menu(bp, ".mods", "Clientmods", order=11, endpoint_arguments_constructor=lambda: { 'type': 'mod' })
+#@menu.register_menu(bp, ".games", "Games", order=12, endpoint_arguments_constructor=lambda: { 'type': 'game' })
 @menu.register_menu(bp, ".txp", "Texture Packs", order=13, endpoint_arguments_constructor=lambda: { 'type': 'txp' })
 @menu.register_menu(bp, ".random", "Random", order=14, endpoint_arguments_constructor=lambda: { 'random': '1', 'lucky': '1' })
 @bp.route("/packages/")
@@ -228,7 +228,7 @@ class PackageForm(FlaskForm):
 	title            = StringField("Title (Human-readable)", [InputRequired(), Length(3, 100)])
 	short_desc       = StringField("Short Description (Plaintext)", [InputRequired(), Length(1,200)])
 	desc             = TextAreaField("Long Description (Markdown)", [Optional(), Length(0,10000)])
-	type             = SelectField("Type", [InputRequired()], choices=PackageType.choices(), coerce=PackageType.coerce, default=PackageType.MOD)
+	type             = SelectField("Type", [InputRequired()], choices=PackageType.choices_cheat(), coerce=PackageType.coerce, default=PackageType.MOD)
 	license          = QuerySelectField("License", [DataRequired()], allow_blank=True, query_factory=lambda: License.query.order_by(db.asc(License.name)), get_pk=lambda a: a.id, get_label=lambda a: a.name)
 	media_license    = QuerySelectField("Media License", [DataRequired()], allow_blank=True, query_factory=lambda: License.query.order_by(db.asc(License.name)), get_pk=lambda a: a.id, get_label=lambda a: a.name)
 	tags             = QuerySelectMultipleField('Tags', query_factory=lambda: Tag.query.order_by(db.asc(Tag.name)), get_pk=lambda a: a.id, get_label=makeLabel)

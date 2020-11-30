@@ -311,7 +311,7 @@ class License(db.Model):
 
 
 class PackageType(enum.Enum):
-	MOD  = "Mod"
+	MOD  = "Clientmod"
 	GAME = "Game"
 	TXP  = "Texture Pack"
 
@@ -331,6 +331,12 @@ class PackageType(enum.Enum):
 	@classmethod
 	def choices(cls):
 		return [(choice, choice.value) for choice in cls]
+
+	@classmethod
+	def choices_cheat(cls):
+		c = cls.choices()
+		c.remove((cls.GAME, cls.GAME.value))
+		return c
 
 	@classmethod
 	def coerce(cls, item):
