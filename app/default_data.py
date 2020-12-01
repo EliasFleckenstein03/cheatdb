@@ -110,8 +110,8 @@ def populate_test_data(session):
 	mod.tags.append(tags["movement"])
 	mod.tags.append(tags["bot"])
 	mod.tags.append(tags["any_game"])
-	mod.repo = "https://github.com/EliasFleckentein03/pathfinding"
-	mod.issueTracker = "https://github.com/EliasFleckentein03/pathfinding/issues"
+	mod.repo = "https://github.com/EliasFleckenstein03/pathfinding"
+	mod.issueTracker = "https://github.com/EliasFleckenstein03/pathfinding/issues"
 	mod.short_desc = "A dragonfire CSM that adds .goto command."
 	mod.desc = ""
 	session.add(mod)
@@ -119,7 +119,7 @@ def populate_test_data(session):
 	rel = PackageRelease()
 	rel.package = mod
 	rel.title = "v1.0.0"
-	rel.url = "https://github.com/EliasFleckentein03/pathfinding/archive/master.zip"
+	rel.url = "https://github.com/EliasFleckenstein03/pathfinding/archive/master.zip"
 	rel.approved = True
 	session.add(rel)
 
